@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label for="X">X:</label>
+    <input id="X" />
+    <br/>
+
+    <label for="Y">Y:</label>
+    <input id="Y" />
+    <br/>
+
+    <label for="Z">Z:</label>
+    <input id="Z" />
+    <br/>
+    <br/>
+    <br/>
+    <button onclick="start()">
+        START
+    </button>
+
+    <button onclick="stop()">
+        STOP
+    </button>
+
+    <button onclick="clear">
+        CLEAR
+    </button>
+
+    <br/>
+
+    <textarea rows="20" style="width: 100%;" id="textarea"></textarea>
+
+
+    <script>
+        const xInput = document.getElementById("X")
+        const yInput = document.getElementById("Y")
+        const zInput = document.getElementById("Z")
+        const textarea = document.getElementById("textarea")
+
+
+        function start() {
+            if (
+                DeviceMotionEvent &&
+                typeof DeviceMotionEvent.requestPermission === "function"
+            ) {
+                DeviceMotionEvent.requestPermission();
+            }
+            window.addEventListener("devicemotion", handleMotion)
+        }
+
+        function stop() {
+            window.removeEventListener("devicemotion", handleMotion)
+        }
+
+        function clear() {
+            textarea.value = ""
+        }
+
+        function handleMotion(event) {
+            const date = new Date()
+            xInput.value = event.acceleration.x
+            yInput.value = event.acceleration.y
+            zInput.value = event.acceleration.z
+
+            // textarea.value += `
+            //     {X: ${xInput.value}; 
+            //     Y: ${yInput.value}; 
+            //     Z: ${zInput.value};
+            //     date: ${date}
+            // }`
+
+
+        }
+        
+    </script>
+</body>
+</html>
