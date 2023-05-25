@@ -89,23 +89,18 @@
 
 <script>
     const main = async () => {
-        await check()
         const swRegistration = await registerServiceWorker()
         const permission = await window.Notification.requestPermission()
         if (permission !== "granted") {
             throw new Error("permission denied")
         }
-        showNotification("this is title", "this is message", swRegistration)
+        setTimeout(() => {
+            showNotification("this is title", "this is message", swRegistration)
+        }, 10000)
     }
 
     const registerServiceWorker = async () => {
         return await navigator.serviceWorker.register("./sw.js")
-    }
-
-    const check = async () => {
-        if ('serviceWorker' in navigator) {
-
-        }
     }
 
     const showNotification = (title, body, swRegistration) => {
