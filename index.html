@@ -19,18 +19,24 @@
 <input id="Z"/>
 <br/>
 
+<button onclick="start()">
+    start
+</button>
+
 <script>
     const inputX = document.getElementById("X")
     const inputY = document.getElementById("Y")
     const inputZ = document.getElementById("Z")
 
-    if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("/sw.js", {
-            scope: "/"
-        })
-            .then(() => {
-                main()
+    function start() {
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/sw.js", {
+                scope: "/"
             })
+                .then(() => {
+                    main()
+                })
+        }
     }
 
     function main() {
