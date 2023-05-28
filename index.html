@@ -35,9 +35,9 @@
 
     function main() {
         window.addEventListener("devicemotion", (event) => {
-            inputX.value = event.accelerationIncludingGravity.x
-            inputY.value = event.accelerationIncludingGravity.y
-            inputZ.value = event.accelerationIncludingGravity.z
+            inputX.value = event.acceleration.x
+            inputY.value = event.acceleration.y
+            inputZ.value = event.acceleration.z
         })
     }
 </script>
