@@ -19,32 +19,50 @@
 <input id="Z"/>
 <br/>
 
-<button onclick="start()">
+<button onclick="main()">
     start
 </button>
+
+<button onclick="stop()">
+    stop
+</button>
+
+<p id="result" style="font-size: 12px"></p>
 
 <script>
     const inputX = document.getElementById("X")
     const inputY = document.getElementById("Y")
     const inputZ = document.getElementById("Z")
 
-    function start() {
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("/sw.js", {
-                scope: "/"
-            })
-                .then(() => {
-                    main()
-                })
-        }
-    }
+    // if ("serviceWorker" in navigator) {
+    //     navigator.serviceWorker.register("/sw.js", {
+    //         scope: "/"
+    //     })
+    //         .then(() => {
+    //             main()
+    //         })
+    // }
+
+    let interval = null
 
     function main() {
-        window.addEventListener("devicemotion", (event) => {
-            inputX.value = event.acceleration.x
-            inputY.value = event.acceleration.y
-            inputZ.value = event.acceleration.z
-        })
+        interval = setInterval(() => {
+            window.addEventListener("devicemotion", motionFunction)
+
+            const date = new Date()
+            document.getElementById("result").innerHTML += `${date} <br/>`
+        }, 1000)
+    }
+
+    function stop() {
+        clearInterval(interval)
+        window.removeEventListener("devicemotion", motionFunction)
+    }
+
+    function motionFunction(event) {
+        inputX.value = event.acceleration.x
+        inputY.value = event.acceleration.y
+        inputZ.value = event.acceleration.z
     }
 </script>
 </body>
