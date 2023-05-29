@@ -29,20 +29,6 @@
 
 <p id="result" style="font-size: 12px"></p>
 
-<table id="table" style="width: 100%;max-width: 100%" border="1">
-    <thead>
-    <tr>
-        <th>X</th>
-        <th>Y</th>
-        <th>Z</th>
-        <th>Time</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    </tbody>
-</table>
-
 <script>
     const inputX = document.getElementById("X")
     const inputY = document.getElementById("Y")
@@ -76,22 +62,6 @@
     }
 
     function stop() {
-        let table = document.getElementById("table")
-        for (let i = 0; i <= 50; i++) {
-            const row = table.insertRow()
-
-            const x = row.insertCell(0)
-            x.innerHTML = array[i]["x"]
-
-            const y = row.insertCell(1)
-            y.innerHTML = array[i]["y"]
-
-            const z = row.insertCell(2)
-            z.innerHTML = array[i]["z"]
-
-            const time = row.insertCell(3)
-            time.innerHTML = array[i]["time"]
-        }
         window.removeEventListener("devicemotion", motionFunction)
     }
 
@@ -100,15 +70,17 @@
         inputY.value = event.acceleration.y
         inputZ.value = event.acceleration.z
 
-        if (array.length > 50) {
-            stop()
-        } else {
-            array.push({
-                x: event.acceleration.x,
-                y: event.acceleration.y,
-                z: event.acceleration.z,
-                time: new Date().valueOf()
-            })
+        array.push({
+            x: event.acceleration.x,
+            y: event.acceleration.y,
+            z: event.acceleration.z,
+            time: new Date().valueOf()
+        })
+
+        if (!array.length % 50) {
+            const result = document.getElementById("result")
+            const date = new Date()
+            result.innerHTML += `${date.toString().slice(16, 24)} : ${date.getMilliseconds()} <br/>`
         }
     }
 </script>
