@@ -48,15 +48,6 @@
     const inputY = document.getElementById("Y")
     const inputZ = document.getElementById("Z")
 
-    // if ("serviceWorker" in navigator) {
-    //     navigator.serviceWorker.register("/sw.js", {
-    //         scope: "/"
-    //     })
-    //         .then(() => {
-    //             main()
-    //         })
-    // }
-
     function start() {
         if ("serviceWorker" in navigator) {
             navigator.serviceWorker.register("sw.js")
@@ -78,7 +69,6 @@
         }
     }
 
-    let interval = null
     let array = []
 
     function main() {
@@ -86,7 +76,6 @@
     }
 
     function stop() {
-        // clearInterval(interval)
         let table = document.getElementById("table")
         for (let i = 0; i <= array.length; i++) {
             const row = table.insertRow()
@@ -111,17 +100,16 @@
         inputY.value = event.acceleration.y
         inputZ.value = event.acceleration.z
 
-        if (array.length === 51) {
+        if (array.length >= 50) {
             stop()
-            return
+        } else {
+            array.push({
+                x: event.acceleration.x,
+                y: event.acceleration.y,
+                z: event.acceleration.z,
+                time: new Date().valueOf()
+            })
         }
-
-        array.push({
-            x: event.acceleration.x,
-            y: event.acceleration.y,
-            z: event.acceleration.z,
-            time: new Date().valueOf()
-        })
     }
 </script>
 </body>
