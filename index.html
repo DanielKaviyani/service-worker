@@ -73,11 +73,10 @@
         array.push({
             x: event.acceleration.x,
             y: event.acceleration.y,
-            z: event.acceleration.z,
-            time: new Date().valueOf()
+            z: event.acceleration.z
         })
 
-        if (!array.length % 50) {
+        if (!array.length%50) {
             const result = document.getElementById("result")
             const date = new Date()
             result.innerHTML += `${date.toString().slice(16, 24)} : ${date.getMilliseconds()} <br/>`
