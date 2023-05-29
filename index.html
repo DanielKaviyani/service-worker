@@ -29,6 +29,20 @@
 
 <p id="result" style="font-size: 12px"></p>
 
+<table id="table" width="100%" border="1">
+    <thead>
+    <tr>
+        <th>X</th>
+        <th>Y</th>
+        <th>Z</th>
+        <th>Time</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    </tbody>
+</table>
+
 <script>
     const inputX = document.getElementById("X")
     const inputY = document.getElementById("Y")
@@ -68,7 +82,7 @@
     let array = []
 
     function main() {
-            window.addEventListener("devicemotion", motionFunction)
+        window.addEventListener("devicemotion", motionFunction)
 //         interval = setInterval(() => {
 //
 //             const date = new Date()
@@ -84,6 +98,8 @@
     }
 
     function motionFunction(event) {
+        let table = document.getElementById("table")
+        
         inputX.value = event.acceleration.x
         inputY.value = event.acceleration.y
         inputZ.value = event.acceleration.z
@@ -97,7 +113,24 @@
 
         if (array.length === 51) stop()
 
-        document.getElementById("result").innerHTML += array
+
+        for (let i = 0 ; i <= array.length ; i++) {
+            const row = table.insertRow()
+
+            const x = row.insertCell(0)
+            x.innerHTML = "X"
+
+            const y = row.insertCell(1)
+            y.innerHTML = "Y"
+
+            const z = row.insertCell(2)
+            z.innerHTML = "Z"
+
+            const time = row.insertCell(3)
+            time.innerHTML = new Date().getMilliseconds().toString()
+        }
+
+        // document.getElementById("result").innerHTML += array
     }
 </script>
 </body>
