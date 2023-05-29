@@ -76,10 +76,10 @@
             z: event.acceleration.z
         })
 
-        if (!array.length%50) {
+        if (array.length % 50 === 0) {
             const result = document.getElementById("result")
             const date = new Date()
-            result.innerHTML += `${date.toString().slice(16, 24)} : ${date.getMilliseconds()} <br/>`
+            result.innerHTML += `${date.toString().slice(16, 24)}:${date.getMilliseconds()} <br/>`
         }
     }
 </script>
