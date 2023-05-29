@@ -50,7 +50,9 @@
             window.addEventListener("devicemotion", motionFunction)
 
             const date = new Date()
-            document.getElementById("result").innerHTML += `${date} <br/>`
+            document.getElementById("result").innerHTML += `
+${date.toString().slice(16, 24)} ** ${inputX.value.slice(0, 4)} ** ${inputY.value.slice(0, 4)} ** ${inputZ.value.slice(0, 4)} <br/>
+`
         }, 1000)
     }
 
