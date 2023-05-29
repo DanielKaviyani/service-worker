@@ -83,54 +83,45 @@
 
     function main() {
         window.addEventListener("devicemotion", motionFunction)
-//         interval = setInterval(() => {
-//
-//             const date = new Date()
-//             document.getElementById("result").innerHTML += `
-// ${date.getMilliseconds()} ** ${inputX.value.slice(0, 4)} ** ${inputY.value.slice(0, 4)} ** ${inputZ.value.slice(0, 4)} <br/>
-// `
-//         }, 1)
     }
 
     function stop() {
         // clearInterval(interval)
+        let table = document.getElementById("table")
+        for (let i = 0; i <= array.length; i++) {
+            const row = table.insertRow()
+
+            const x = row.insertCell(0)
+            x.innerHTML = array[i]["x"]
+
+            const y = row.insertCell(1)
+            y.innerHTML = array[i]["y"]
+
+            const z = row.insertCell(2)
+            z.innerHTML = array[i]["z"]
+
+            const time = row.insertCell(3)
+            time.innerHTML = array[i]["time"]
+        }
         window.removeEventListener("devicemotion", motionFunction)
     }
 
     function motionFunction(event) {
-        let table = document.getElementById("table")
-
         inputX.value = event.acceleration.x
         inputY.value = event.acceleration.y
         inputZ.value = event.acceleration.z
 
-        array.push({
-            x: event.acceleration.x,
-            y: event.acceleration.y,
-            z: event.acceleration.z,
-            time: new Date().getMilliseconds()
-        })
-
-        if (array.length === 51) stop()
-
-
-        for (let i = 0 ; i <= array.length ; i++) {
-            const row = table.insertRow()
-
-            const x = row.insertCell(0)
-            x.innerHTML = array[i][x]
-
-            const y = row.insertCell(1)
-            y.innerHTML = array[i][y]
-
-            const z = row.insertCell(2)
-            z.innerHTML = array[i][z]
-
-            const time = row.insertCell(3)
-            time.innerHTML = array[i][time]
+        if (array.length === 51) {
+            stop()
+            return
         }
 
-        // document.getElementById("result").innerHTML += array
+        array.push({
+            x: event.alpha,
+            y: event.beta,
+            z: event.gamma,
+            time: new Date().valueOf()
+        })
     }
 </script>
 </body>
