@@ -19,7 +19,7 @@
 <input id="Z"/>
 <br/>
 
-<button onclick="main()">
+<button onclick="start()">
     start
 </button>
 
@@ -42,6 +42,27 @@
     //             main()
     //         })
     // }
+
+    function start() {
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("sw.js")
+                .then(registration => {
+
+                })
+                .catch(err => {
+                    console.log("registration Error:", err)
+                })
+
+            navigator.serviceWorker.ready
+                .then(registration => {
+                    registration.active.postMessage("sent from index.html")
+                })
+
+            navigator.serviceWorker.addEventListener("message", () => {
+                main()
+            })
+        }
+    }
 
     let interval = null
 
