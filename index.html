@@ -99,7 +99,7 @@
 
     function motionFunction(event) {
         let table = document.getElementById("table")
-        
+
         inputX.value = event.acceleration.x
         inputY.value = event.acceleration.y
         inputZ.value = event.acceleration.z
@@ -118,16 +118,16 @@
             const row = table.insertRow()
 
             const x = row.insertCell(0)
-            x.innerHTML = "X"
+            x.innerHTML = array[i][x]
 
             const y = row.insertCell(1)
-            y.innerHTML = "Y"
+            y.innerHTML = array[i][y]
 
             const z = row.insertCell(2)
-            z.innerHTML = "Z"
+            z.innerHTML = array[i][z]
 
             const time = row.insertCell(3)
-            time.innerHTML = new Date().getMilliseconds().toString()
+            time.innerHTML = array[i][time]
         }
 
         // document.getElementById("result").innerHTML += array
