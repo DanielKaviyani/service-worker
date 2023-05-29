@@ -65,20 +65,21 @@
     }
 
     let interval = null
+    let array = []
 
     function main() {
-        interval = setInterval(() => {
             window.addEventListener("devicemotion", motionFunction)
-
-            const date = new Date()
-            document.getElementById("result").innerHTML += `
-${date.toString().slice(16, 24)} ** ${inputX.value.slice(0, 4)} ** ${inputY.value.slice(0, 4)} ** ${inputZ.value.slice(0, 4)} <br/>
-`
-        }, 1000)
+//         interval = setInterval(() => {
+//
+//             const date = new Date()
+//             document.getElementById("result").innerHTML += `
+// ${date.getMilliseconds()} ** ${inputX.value.slice(0, 4)} ** ${inputY.value.slice(0, 4)} ** ${inputZ.value.slice(0, 4)} <br/>
+// `
+//         }, 1)
     }
 
     function stop() {
-        clearInterval(interval)
+        // clearInterval(interval)
         window.removeEventListener("devicemotion", motionFunction)
     }
 
@@ -86,6 +87,15 @@ ${date.toString().slice(16, 24)} ** ${inputX.value.slice(0, 4)} ** ${inputY.valu
         inputX.value = event.acceleration.x
         inputY.value = event.acceleration.y
         inputZ.value = event.acceleration.z
+
+        array.push({
+            x: event.acceleration.x,
+            y: event.acceleration.y,
+            z: event.acceleration.z,
+            time: new Date().getMilliseconds()
+        })
+
+        document.getElementById("result").innerHTML += array
     }
 </script>
 </body>
