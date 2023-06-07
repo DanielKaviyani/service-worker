@@ -1,87 +1,72 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Accelerometer Example</title>
+  </head>
+  <body>
+    <h1>Accelerometer Example</h1>
+    <div id="accelerometer-data"></div>
 
-<label for="X">X:</label> <br/>
-<input id="X"/>
-<br/>
-<label for="Y">Y:</label> <br/>
-<input id="Y"/>
-<br/>
-<label for="Z">Z:</label> <br/>
-<input id="Z"/>
-<br/>
+    <script>
+      // Check for support for the Permissions API
+      if ("permissions" in navigator) {
+        // Request permission to use the accelerometer
+        navigator.permissions
+          .query({ name: "accelerometer" })
+          .then(function (result) {
+            if (result.state === "granted") {
+              // Permission has already been granted, so start detecting the accelerometer data
+              startAccelerometer();
+            } else {
+              // Permission hasn't been granted yet, so display a button to request permission
+              var button = document.createElement("button");
+              button.textContent = "Request accelerometer permission";
+              button.addEventListener("click", function () {
+                navigator.permissions
+                  .request({ name: "accelerometer" })
+                  .then(function (result) {
+                    if (result.state === "granted") {
+                      // Permission has been granted, so start detecting the accelerometer data
+                      startAccelerometer();
+                    }
+                  });
+              });
+              document.body.appendChild(button);
+            }
+          });
+      } else {
+        // Permissions API not supported
+        var message = document.createElement("p");
+        message.textContent =
+          "The Permissions API is not supported in this browser.";
+        document.body.appendChild(message);
+      }
 
-<button onclick="start()">
-    start
-</button>
-
-<button onclick="stop()">
-    stop
-</button>
-
-<p id="result" style="font-size: 12px"></p>
-
-<script>
-    const inputX = document.getElementById("X")
-    const inputY = document.getElementById("Y")
-    const inputZ = document.getElementById("Z")
-
-    function start() {
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("sw.js")
-                .then(registration => {
-
-                })
-                .catch(err => {
-                    console.log("registration Error:", err)
-                })
-
-            navigator.serviceWorker.ready
-                .then(registration => {
-                    registration.active.postMessage("sent from index.html")
-                })
-
-            navigator.serviceWorker.addEventListener("message", () => {
-                main()
-            })
+      // Function to start detecting accelerometer data
+      function startAccelerometer() {
+        // Check for support for the Accelerometer API
+        if ("Accelerometer" in window) {
+          var accelerometer = new Accelerometer({ frequency: 60 });
+          accelerometer.addEventListener("reading", function () {
+            // Display the X, Y, and Z coordinates
+            document.getElementById("accelerometer-data").textContent =
+              "X: " +
+              accelerometer.x.toFixed(2) +
+              ", Y: " +
+              accelerometer.y.toFixed(2) +
+              ", Z: " +
+              accelerometer.z.toFixed(2);
+          });
+          accelerometer.start();
+        } else {
+          // Accelerometer API not supported
+          var message = document.createElement("p");
+          message.textContent =
+            "The Accelerometer API is not supported in this browser.";
+          document.body.appendChild(message);
         }
-    }
-
-    let array = []
-
-    function main() {
-        window.addEventListener("devicemotion", motionFunction)
-    }
-
-    function stop() {
-        window.removeEventListener("devicemotion", motionFunction)
-    }
-
-    function motionFunction(event) {
-        inputX.value = event.acceleration.x
-        inputY.value = event.acceleration.y
-        inputZ.value = event.acceleration.z
-
-        array.push({
-            x: event.acceleration.x,
-            y: event.acceleration.y,
-            z: event.acceleration.z
-        })
-
-        if (array.length % 50 === 0) {
-            const result = document.getElementById("result")
-            const date = new Date()
-            result.innerHTML += `${date.toString().slice(16, 24)}:${date.getMilliseconds()} <br/>`
-        }
-    }
-</script>
-</body>
+      }
+    </script>
+  </body>
 </html>
