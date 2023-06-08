@@ -50,6 +50,7 @@
         if ("Accelerometer" in window) {
             var accelerometer = new Accelerometer({frequency: 60});
             accelerometer.addEventListener("reading", function () {
+                let date = new Date()
                 // Display the X, Y, and Z coordinates
                 document.getElementById("accelerometer-data").textContent =
                     "X: " +
@@ -59,15 +60,19 @@
                     ", Z: " +
                     accelerometer.z.toFixed(2);
 
-                document.getElementById("result").innerHTML += `
+                setTimeout(() => {
+                    document.getElementById("result").innerHTML += `
                      "X: " +
                     ${accelerometer.x.toFixed(2)} +
                     ", Y: " +
                     ${accelerometer.y.toFixed(2)} +
                     ", Z: " +
                     ${accelerometer.z.toFixed(2)} +
+                    ", time: " +
+                    ${date.toString().slice(16, 24)}:${date.getMilliseconds()} +
                     </br>
                 `
+                }, 1000)
             });
             accelerometer.start();
         } else {
