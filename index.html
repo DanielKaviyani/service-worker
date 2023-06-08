@@ -1,72 +1,83 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8"/>
     <title>Accelerometer Example</title>
-  </head>
-  <body>
-    <h1>Accelerometer Example</h1>
-    <div id="accelerometer-data"></div>
+</head>
+<body>
+<h1>Accelerometer Example</h1>
+<div id="accelerometer-data"></div>
+<p id="result"></p>
 
-    <script>
-      // Check for support for the Permissions API
-      if ("permissions" in navigator) {
+<script>
+    // Check for support for the Permissions API
+    if ("permissions" in navigator) {
         // Request permission to use the accelerometer
         navigator.permissions
-          .query({ name: "accelerometer" })
-          .then(function (result) {
-            if (result.state === "granted") {
-              // Permission has already been granted, so start detecting the accelerometer data
-              startAccelerometer();
-            } else {
-              // Permission hasn't been granted yet, so display a button to request permission
-              var button = document.createElement("button");
-              button.textContent = "Request accelerometer permission";
-              button.addEventListener("click", function () {
-                navigator.permissions
-                  .request({ name: "accelerometer" })
-                  .then(function (result) {
-                    if (result.state === "granted") {
-                      // Permission has been granted, so start detecting the accelerometer data
-                      startAccelerometer();
-                    }
-                  });
-              });
-              document.body.appendChild(button);
-            }
-          });
-      } else {
+            .query({name: "accelerometer"})
+            .then(function (result) {
+                if (result.state === "granted") {
+                    // Permission has already been granted, so start detecting the accelerometer data
+                    startAccelerometer();
+                } else {
+                    // Permission hasn't been granted yet, so display a button to request permission
+                    var button = document.createElement("button");
+                    button.textContent = "Request accelerometer permission";
+                    button.addEventListener("click", function () {
+                        navigator.permissions
+                            .request({name: "accelerometer"})
+                            .then(function (result) {
+                                if (result.state === "granted") {
+                                    // Permission has been granted, so start detecting the accelerometer data
+                                    startAccelerometer();
+                                }
+                            });
+                    });
+                    document.body.appendChild(button);
+                }
+            });
+    } else {
         // Permissions API not supported
         var message = document.createElement("p");
         message.textContent =
-          "The Permissions API is not supported in this browser.";
+            "The Permissions API is not supported in this browser.";
         document.body.appendChild(message);
-      }
+    }
 
-      // Function to start detecting accelerometer data
-      function startAccelerometer() {
+    // Function to start detecting accelerometer data
+    function startAccelerometer() {
         // Check for support for the Accelerometer API
         if ("Accelerometer" in window) {
-          var accelerometer = new Accelerometer({ frequency: 60 });
-          accelerometer.addEventListener("reading", function () {
-            // Display the X, Y, and Z coordinates
-            document.getElementById("accelerometer-data").textContent =
-              "X: " +
-              accelerometer.x.toFixed(2) +
-              ", Y: " +
-              accelerometer.y.toFixed(2) +
-              ", Z: " +
-              accelerometer.z.toFixed(2);
-          });
-          accelerometer.start();
+            var accelerometer = new Accelerometer({frequency: 60});
+            accelerometer.addEventListener("reading", function () {
+                // Display the X, Y, and Z coordinates
+                document.getElementById("accelerometer-data").textContent =
+                    "X: " +
+                    accelerometer.x.toFixed(2) +
+                    ", Y: " +
+                    accelerometer.y.toFixed(2) +
+                    ", Z: " +
+                    accelerometer.z.toFixed(2);
+
+                document.getElementById("result").innerHTML += `
+                     "X: " +
+                    ${accelerometer.x.toFixed(2)} +
+                    ", Y: " +
+                    ${accelerometer.y.toFixed(2)} +
+                    ", Z: " +
+                    ${accelerometer.z.toFixed(2)} +
+                    </br>
+                `
+            });
+            accelerometer.start();
         } else {
-          // Accelerometer API not supported
-          var message = document.createElement("p");
-          message.textContent =
-            "The Accelerometer API is not supported in this browser.";
-          document.body.appendChild(message);
+            // Accelerometer API not supported
+            var message = document.createElement("p");
+            message.textContent =
+                "The Accelerometer API is not supported in this browser.";
+            document.body.appendChild(message);
         }
-      }
-    </script>
-  </body>
+    }
+</script>
+</body>
 </html>
